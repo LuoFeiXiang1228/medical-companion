@@ -1,0 +1,46 @@
+<view class="page">
+  <view class="stats" wx:if="{{stats}}">
+    <view class="stat"><view class="num">{{stats.acceptedOrders}}</view><view class="lab">今日接单</view></view>
+    <view class="stat"><view class="num">{{stats.finishedOrders}}</view><view class="lab">今日完成</view></view>
+    <view class="stat"><view class="num">{{stats.ongoingOrders}}</view><view class="lab">进行中</view></view>
+  </view>
+
+  <view class="warn-bar" wx:if="{{!qualified && reasons.length}}">
+    <text class="warn-text">当前不可接单：{{reasons[0].message}}</text>
+    <text class="warn-link" catchtap="goMine">查看资质 ›</text>
+  </view>
+
+  <view class="tabs">
+    <view class="tab {{tab === 'pool' ? 'active' : ''}}" data-tab="pool" bindtap="onTab">待接单池</view>
+    <view class="tab {{tab === 'mine' ? 'active' : ''}}" data-tab="mine" bindtap="onTab">我的任务</view>
+  </view>
+
+  <block wx:if="{{tab === 'pool'}}">
+    <view wx:if="{{!pool.length}}" class="empty">暂无可接订单</view>
+    <view class="card" wx:for="{{pool}}" wx:key="id">
+      <view class="row1">
+        <text class="no">{{item.order_no}}</text>
+        <text class="date">{{item.serviceDate}}<text wx:if="{{item.time_label}}"> {{item.time_label}}</text></text>
+      </view>
+      <view class="svc">{{item.hospital_name || '-'}}<text wx:if="{{item.department_name}}"> · {{item.department_name}}</text></view>
+      <view class="row2">
+        <text class="amount">¥{{item.total_amount}}</text>
+        <button class="accept-btn" size="mini" data-id="{{item.id}}" catchtap="accept" disabled="{{acceptingId === item.id}}">{{acceptingId === item.id ? '接单中…' : '接单'}}</button>
+      </view>
+    </view>
+  </block>
+
+  <block wx:else>
+    <view wx:if="{{!tasks.length}}" class="empty">暂无进行中的任务</view>
+    <view class="card" wx:for="{{tasks}}" wx:key="id" data-id="{{item.id}}" bindtap="goDetail">
+      <view class="row1">
+        <text class="no">{{item.order_no}}</text>
+        <text class="status">{{item.statusText}}</text>
+      </view>
+      <view class="svc">{{item.hospital_name || '-'}}<text wx:if="{{item.department_name}}"> · {{item.department_name}}</text></view>
+      <view class="meta">就医人：{{item.patient_name || '-'}} · {{item.serviceDate}}<text wx:if="{{item.time_label}}"> {{item.time_label}}</text></view>
+    </view>
+  </block>
+
+  <view class="safe-bottom" />
+</view>

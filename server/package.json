@@ -1,0 +1,26 @@
+{
+  "name": "peizhen-server",
+  "version": "1.0.0",
+  "private": true,
+  "description": "陪诊服务系统后端（Node.js + Koa + MySQL）",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "node --watch src/app.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "koa": "^2.15.3",
+    "koa-router": "^12.0.1",
+    "koa-bodyparser": "^4.4.1",
+    "koa-helmet": "^6.1.0",
+    "@koa/cors": "^5.0.0",
+    "mysql2": "^3.11.0",
+    "ioredis": "^5.4.1",
+    "jsonwebtoken": "^9.0.2",
+    "axios": "^1.7.0",
+    "dotenv": "^16.4.5"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  }
+}

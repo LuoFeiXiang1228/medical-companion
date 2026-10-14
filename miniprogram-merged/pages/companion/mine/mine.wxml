@@ -1,0 +1,41 @@
+<view class="page">
+  <view class="head" wx:if="{{me}}">
+    <view class="avatar">{{me.real_name ? me.real_name[0] : '陪'}}</view>
+    <view class="head-info">
+      <view class="name">{{me.real_name || '陪诊员'}}</view>
+      <view class="sub">{{me.phone || ''}}<text wx:if="{{me.username}}"> · {{me.username}}</text></view>
+    </view>
+    <view class="audit-chip {{me.audit_status === 1 ? 'ok' : (me.audit_status === 2 ? 'bad' : '')}}">{{auditText}}</view>
+  </view>
+
+  <view class="section" wx:if="{{me}}">
+    <view class="section-title">资质信息</view>
+    <view class="kv"><text class="k">岗前培训</text><text class="v">{{trainText}}</text></view>
+    <view class="kv"><text class="k">职业能力证书</text><text class="v">{{me.cert_no || '未登记'}}<text wx:if="{{me.cert_expire}}">（{{me.cert_expire}} 到期）</text></text></view>
+    <view class="kv"><text class="k">健康证</text><text class="v">{{me.health_cert_no || '未登记'}}<text wx:if="{{me.health_cert_expire}}">（{{me.health_cert_expire}} 到期）</text></text></view>
+    <view class="kv"><text class="k">可服务范围</text><text class="v">{{me.hospital_scope || '未设置'}}</text></view>
+    <view class="kv" wx:if="{{me.audit_remark}}"><text class="k">审核意见</text><text class="v warn">{{me.audit_remark}}</text></view>
+  </view>
+
+  <view class="section" wx:if="{{capability && capability.reasons.length}}">
+    <view class="section-title">当前不可接单原因</view>
+    <view class="reason" wx:for="{{capability.reasons}}" wx:key="code">· {{item.message}}</view>
+  </view>
+
+  <view class="section" wx:if="{{stats}}">
+    <view class="section-title">今日工作量</view>
+    <view class="stat-row">
+      <view class="stat"><view class="num">{{stats.acceptedOrders}}</view><view class="lab">接单</view></view>
+      <view class="stat"><view class="num">{{stats.finishedOrders}}</view><view class="lab">完成</view></view>
+      <view class="stat"><view class="num">{{stats.ongoingOrders}}</view><view class="lab">进行中</view></view>
+    </view>
+  </view>
+
+  <view class="menu">
+    <view class="menu-item" bindtap="tipCert"><text class="mi-icon">🪪</text><text class="mi-text">资质与证件说明</text><text class="mi-arrow">›</text></view>
+    <view class="menu-item" bindtap="logout"><text class="mi-icon">🚪</text><text class="mi-text">退出登录</text><text class="mi-arrow">›</text></view>
+  </view>
+
+  <view class="version">陪诊服务 v1.0.0 · 陪诊员端</view>
+  <view class="safe-bottom" />
+</view>

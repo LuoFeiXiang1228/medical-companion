@@ -1,0 +1,30 @@
+<view class="mask" wx:if="{{visible}}" catchtouchmove="noop">
+  <view class="panel">
+    <view class="title">隐私保护提示</view>
+    <view class="body">
+      <text>感谢你使用陪诊服务。我们非常重视你的个人信息与隐私保护。\n\n为了给你提供预约下单、服务留痕、客服等功能，我们会在你使用相应功能时收集必要信息：</text>
+      <view class="li">· 微信登录标识：用于识别你的账号与订单</view>
+      <view class="li">· 收货地址、联系人与手机号：用于把商品送到你手上</view>
+      <view class="li">· 订单与支付信息：用于完成交易与售后</view>
+      <view class="li">· 设备与日志信息：用于排查故障和改进体验</view>
+      <text class="tip">我们不会向任何第三方出售你的信息。特殊商品订单在配送端会自动隐藏商品名称，使用隐私包装。</text>
+      <view class="links">
+        阅读完整的
+        <text class="link" bindtap="goPrivacy">《隐私政策》</text>
+        与
+        <text class="link" bindtap="goAgreement">《用户协议》</text>
+      </view>
+    </view>
+    <view class="actions">
+      <view class="btn ghost" bindtap="onDisagree">暂不同意</view>
+      <button
+        wx:if="{{useWxAuth}}"
+        id="agree-btn"
+        class="btn solid"
+        open-type="agreePrivacyAuthorization"
+        bindagreeprivacyauthorization="onAgreeWx"
+      >同意并继续</button>
+      <view wx:else class="btn solid" bindtap="onAgreePlain">同意并继续</view>
+    </view>
+  </view>
+</view>

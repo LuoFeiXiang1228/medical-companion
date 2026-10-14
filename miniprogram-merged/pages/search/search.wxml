@@ -1,0 +1,27 @@
+<view class="page">
+  <view class="search-bar">
+    <input
+      class="search-input"
+      placeholder="搜索陪诊服务项目"
+      value="{{keyword}}"
+      bindinput="onInput"
+      confirm-type="search"
+      bindconfirm="doSearch"
+    />
+    <view class="search-btn" bindtap="doSearch">搜索</view>
+  </view>
+
+  <view wx:if="{{loading}}" class="empty">搜索中…</view>
+  <view wx:elif="{{searched && !list.length}}" class="empty">
+    <view class="empty-title">没有找到相关服务</view>
+    <view class="empty-tip">换个关键词试试</view>
+  </view>
+
+  <view class="pkg-card" wx:for="{{list}}" wx:key="id" data-id="{{item.id}}" bindtap="goPackage">
+    <view class="pkg-main">
+      <view class="pkg-name">{{item.name}}</view>
+      <view class="pkg-desc" wx:if="{{item.description}}">{{item.description}}</view>
+    </view>
+    <view class="pkg-price">¥{{item.price}}</view>
+  </view>
+</view>

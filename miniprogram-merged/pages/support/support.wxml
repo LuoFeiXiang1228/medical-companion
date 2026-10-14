@@ -1,0 +1,39 @@
+<view class="page">
+  <view class="card">
+    <view class="card-title">联系客服</view>
+    <view class="row" bindtap="copyPhone">
+      <text class="k">客服电话</text>
+      <text class="v {{service.phone ? '' : 'muted'}}">{{service.phone || '未设置'}}</text>
+    </view>
+    <view class="row" bindtap="copyWechat">
+      <text class="k">客服微信</text>
+      <text class="v {{service.wechat ? '' : 'muted'}}">{{service.wechat || '未设置'}}</text>
+    </view>
+    <view class="row">
+      <text class="k">服务时间</text>
+      <text class="v">{{service.hours || '-'}}</text>
+    </view>
+    <view class="note" wx:if="{{service.note}}">{{service.note}}</view>
+  </view>
+
+  <view class="card" wx:if="{{notice}}">
+    <view class="card-title">服务公告</view>
+    <view class="note">{{notice}}</view>
+  </view>
+
+  <view class="card">
+    <view class="card-title">常见问题</view>
+    <view class="qa">
+      <view class="q">如何预约陪诊服务？</view>
+      <view class="a">在首页选择服务项目，进入详情页点击「立即预约」，选择就医人、医院科室与时间后提交即可。</view>
+    </view>
+    <view class="qa">
+      <view class="q">陪诊员能做哪些事？</view>
+      <view class="a">仅限国标允许的协助事项（取号、引导、取药、记录医嘱等），不提供任何医疗判断与建议；完整服务边界可在服务详情页查看。</view>
+    </view>
+    <view class="qa">
+      <view class="q">家属如何了解服务进度？</view>
+      <view class="a">订单详情页提供进度时间轴与服务留痕（含节点时间与照片），全程可追溯。</view>
+    </view>
+  </view>
+</view>

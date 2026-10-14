@@ -1,0 +1,77 @@
+<view class="page">
+  <view class="header">
+    <view class="title">陪诊员端</view>
+    <view class="subtitle">账号由机构发放 · 登录后开始接单</view>
+  </view>
+
+  <view class="mode-tabs">
+    <view class="mode {{mode === 'login' ? 'active' : ''}}" data-mode="login" bindtap="switchMode">登录</view>
+    <view class="mode {{mode === 'register' ? 'active' : ''}}" data-mode="register" bindtap="switchMode">注册申请</view>
+  </view>
+
+  <view class="form" wx:if="{{mode === 'login'}}">
+    <view class="field">
+      <text class="label">账号</text>
+      <input class="input" placeholder="登录账号" value="{{username}}" data-key="username" bindinput="onField" />
+    </view>
+    <view class="field">
+      <text class="label">密码</text>
+      <input class="input" password placeholder="登录密码" value="{{password}}" data-key="password" bindinput="onField" />
+    </view>
+    <button class="btn-primary submit" bindtap="doLogin" disabled="{{submitting}}">{{submitting ? '登录中…' : '登 录'}}</button>
+  </view>
+
+  <view class="form" wx:else>
+    <view class="form-tip">提交后需管理员审核资质，审核通过即可用账号密码登录接单</view>
+    <view class="field">
+      <text class="label">姓名 *</text>
+      <input class="input" placeholder="真实姓名" value="{{rName}}" data-key="rName" bindinput="onField" />
+    </view>
+    <view class="field">
+      <text class="label">手机号 *</text>
+      <input class="input" type="number" maxlength="11" placeholder="11 位手机号" value="{{rPhone}}" data-key="rPhone" bindinput="onField" />
+    </view>
+    <view class="field">
+      <text class="label">登录账号 *</text>
+      <input class="input" placeholder="4-20 位字母 / 数字 / 下划线" value="{{rUsername}}" data-key="rUsername" bindinput="onField" />
+    </view>
+    <view class="field">
+      <text class="label">登录密码 *</text>
+      <input class="input" password maxlength="128" placeholder="12–128 位密码" value="{{rPassword}}" data-key="rPassword" bindinput="onField" />
+    </view>
+
+    <view class="group-title">资质材料（可后补，审核时需齐全）</view>
+    <view class="field">
+      <text class="label">证书类型</text>
+      <input class="input" placeholder="如：陪诊服务专项职业能力证书" value="{{certType}}" data-key="certType" bindinput="onField" />
+    </view>
+    <view class="field">
+      <text class="label">证书编号</text>
+      <input class="input" placeholder="证书编号" value="{{certNo}}" data-key="certNo" bindinput="onField" />
+    </view>
+    <view class="field">
+      <text class="label">发证机构</text>
+      <input class="input" placeholder="发证机构" value="{{certIssueOrg}}" data-key="certIssueOrg" bindinput="onField" />
+    </view>
+    <view class="field">
+      <text class="label">证书有效期</text>
+      <picker mode="date" value="{{certExpire}}" data-key="certExpire" bindchange="onDate">
+        <view class="picker-value">{{certExpire || '请选择'}}</view>
+      </picker>
+    </view>
+    <view class="field">
+      <text class="label">健康证编号</text>
+      <input class="input" placeholder="健康证编号" value="{{healthCertNo}}" data-key="healthCertNo" bindinput="onField" />
+    </view>
+    <view class="field">
+      <text class="label">健康证有效期</text>
+      <picker mode="date" value="{{healthCertExpire}}" data-key="healthCertExpire" bindchange="onDate">
+        <view class="picker-value">{{healthCertExpire || '请选择'}}</view>
+      </picker>
+    </view>
+
+    <button class="btn-primary submit" bindtap="doRegister" disabled="{{submitting}}">{{submitting ? '提交中…' : '提交注册申请'}}</button>
+  </view>
+
+  <view class="safe-bottom" />
+</view>

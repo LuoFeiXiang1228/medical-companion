@@ -1,0 +1,7 @@
+{
+  "name": "proxy",
+  "version": "1.0.0",
+  "description": "云函数中转：转发小程序请求到自有服务器",
+  "main": "index.js",
+  "dependencies": {}
+}

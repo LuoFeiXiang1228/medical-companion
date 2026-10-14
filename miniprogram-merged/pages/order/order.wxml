@@ -1,0 +1,36 @@
+<view class="page">
+  <scroll-view class="tab-bar" scroll-x>
+    <view
+      class="tab {{activeTab === item.value ? 'active' : ''}}"
+      wx:for="{{tabs}}"
+      wx:key="value"
+      data-value="{{item.value}}"
+      bindtap="onTab"
+    >{{item.label}}</view>
+  </scroll-view>
+
+  <view wx:if="{{loading && !orders.length}}" class="empty">加载中…</view>
+  <view wx:elif="{{!orders.length}}" class="empty">
+    <view class="empty-title">还没有订单</view>
+    <view class="empty-tip">去首页挑选陪诊服务吧</view>
+  </view>
+
+  <view class="card" wx:for="{{orders}}" wx:key="id" data-id="{{item.id}}" bindtap="goDetail">
+    <view class="row1">
+      <text class="no">{{item.order_no}}</text>
+      <text class="status {{item.canPay ? 'warn' : ''}}">{{item.canPay ? '待支付' : item.statusText}}</text>
+    </view>
+    <view class="svc">{{item.service_name || '陪诊服务'}}</view>
+    <view class="meta" wx:if="{{item.hospital_name}}">
+      <text>{{item.hospital_name}}<text wx:if="{{item.department_name}}"> · {{item.department_name}}</text></text>
+    </view>
+    <view class="meta" wx:if="{{item.patient_name}}">就医人：{{item.patient_name}}</view>
+    <view class="row2">
+      <text class="date">{{item.serviceDate}}<text wx:if="{{item.time_label}}"> {{item.time_label}}</text></text>
+      <text class="amount">¥{{item.total_amount}}</text>
+    </view>
+    <view class="stage" wx:if="{{item.stageText}}">阶段：{{item.stageText}}</view>
+  </view>
+
+  <view class="safe-bottom" />
+</view>

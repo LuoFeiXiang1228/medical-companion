@@ -1,0 +1,39 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/search/search",
+    "pages/patients/patients",
+    "pages/package/package",
+    "pages/booking/booking",
+    "pages/order/order",
+    "pages/order-detail/order-detail",
+    "pages/mine/mine",
+    "pages/profile/profile",
+    "pages/support/support",
+    "pages/legal/legal",
+    "pages/companion/login/login",
+    "pages/companion/index/index",
+    "pages/companion/task-detail/task-detail",
+    "pages/companion/mine/mine"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#2D9AFF",
+    "navigationBarTitleText": "陪诊服务",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#F5F7FA"
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#999999",
+    "selectedColor": "#2D9AFF",
+    "list": [
+      { "pagePath": "pages/index/index", "text": "首页" },
+      { "pagePath": "pages/order/order", "text": "订单" },
+      { "pagePath": "pages/mine/mine", "text": "我的" },
+      { "pagePath": "pages/companion/index/index", "text": "任务" },
+      { "pagePath": "pages/companion/mine/mine", "text": "我的" }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

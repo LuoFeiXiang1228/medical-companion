@@ -1,0 +1,95 @@
+<view class="page">
+  <view wx:if="{{!task}}" class="empty">加载中…</view>
+
+  <block wx:elif="{{task}}">
+    <view class="head">
+      <view class="head-no">{{task.order_no}}</view>
+      <view class="head-svc">{{items[0].name || '陪诊服务'}}</view>
+      <view class="head-meta">{{task.hospital_name || '-'}}<text wx:if="{{task.department_name}}"> · {{task.department_name}}</text></view>
+      <view class="head-meta">服务日期：{{task.service_date}} <text wx:if="{{task.time_label}}">{{task.time_label}}</text></view>
+      <view class="head-meta" wx:if="{{task.patient_name}}">就医人：{{task.patient_name}}<text wx:if="{{task.mobilityText}}"> · {{task.mobilityText}}</text></view>
+      <view class="head-meta" wx:if="{{task.patient_phone}}">联系电话：{{task.patient_phone}}</view>
+      <view class="head-meta" wx:if="{{task.remark}}">备注：{{task.remark}}</view>
+    </view>
+
+    <view class="section">
+      <view class="section-title">服务节点打卡（{{doneCodes.length}}/{{nodes.length}}）</view>
+      <view class="node-grid">
+        <view
+          class="node {{doneCodes.indexOf(item.code) >= 0 ? 'done' : ''}}"
+          wx:for="{{nodes}}"
+          wx:key="code"
+          data-code="{{item.code}}"
+          bindtap="openCheckin"
+        >
+          <text class="node-mark">{{doneCodes.indexOf(item.code) >= 0 ? '✓' : '○'}}</text>
+          <text class="node-label">{{item.label}}</text>
+        </view>
+      </view>
+      <view class="node-tip">时间戳由服务器记录；一经提交不可修改，如需更正请使用「追加更正」。</view>
+    </view>
+
+    <view class="section" wx:if="{{checkins.length}}">
+      <view class="section-title">留痕记录</view>
+      <view class="log-item" wx:for="{{checkins}}" wx:key="id">
+        <view class="log-head">
+          <text class="log-node {{item.node_code === 'CORRECTION' ? 'correction' : ''}}">{{item.node_name || item.node_code}}</text>
+          <text class="log-time">{{item.timeText}}</text>
+        </view>
+        <view class="log-loc" wx:if="{{item.location_text}}">📍 {{item.location_text}}</view>
+        <view class="log-remark" wx:if="{{item.remark}}">{{item.remark}}</view>
+        <view class="log-flag" wx:if="{{item.is_flagged}}">⚠️ 已标记待复核</view>
+        <view class="log-ops" wx:if="{{item.node_code !== 'CORRECTION'}}">
+          <text class="corr-btn" data-id="{{item.id}}" catchtap="openCorrection">追加更正</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="safe-bottom" />
+  </block>
+
+  <view class="mask" wx:if="{{showCheckin}}" bindtap="closeCheckin"></view>
+  <view class="sheet" wx:if="{{showCheckin}}">
+    <view class="sheet-title">打卡 · {{current.label}}</view>
+    <view class="field">
+      <text class="label">定位描述（选填）</text>
+      <input class="input" placeholder="如：XX医院 门诊大厅" value="{{cLocation}}" bindinput="onLocation" />
+    </view>
+    <view class="field">
+      <text class="label">备注（选填；请勿填写医学判断）</text>
+      <textarea class="textarea" value="{{cRemark}}" bindinput="onRemark" maxlength="200" />
+    </view>
+    <view class="field">
+      <text class="label">留痕照片（选填，最多 3 张）</text>
+      <view class="photo-row">
+        <view class="photo" wx:for="{{cPhotos}}" wx:key="index">
+          <image src="{{item}}" mode="aspectFill" />
+          <view class="photo-del" data-i="{{index}}" catchtap="removePhoto">×</view>
+        </view>
+        <view class="photo-add" wx:if="{{cPhotos.length < 3}}" bindtap="choosePhoto">＋</view>
+      </view>
+    </view>
+    <view class="sheet-ops">
+      <button class="btn-ghost" bindtap="closeCheckin">取消</button>
+      <button class="btn-primary flex1" bindtap="submitCheckin" disabled="{{submitting}}">{{submitting ? '提交中…' : '确认打卡'}}</button>
+    </view>
+  </view>
+
+  <view class="mask" wx:if="{{showCorrection}}" bindtap="closeCorrection"></view>
+  <view class="sheet" wx:if="{{showCorrection}}">
+    <view class="sheet-title">追加更正说明</view>
+    <view class="field">
+      <text class="label">更正原因（选填）</text>
+      <input class="input" placeholder="如：定位误填" value="{{corrReason}}" bindinput="onCorrReason" />
+    </view>
+    <view class="field">
+      <text class="label">更正内容 *</text>
+      <textarea class="textarea" placeholder="请描述需要更正的内容" value="{{corrContent}}" bindinput="onCorrContent" maxlength="500" />
+    </view>
+    <view class="sheet-tip">原记录将保留，更正内容以新记录追加（原记录不可修改）。</view>
+    <view class="sheet-ops">
+      <button class="btn-ghost" bindtap="closeCorrection">取消</button>
+      <button class="btn-primary flex1" bindtap="submitCorrection" disabled="{{submitting}}">提交更正</button>
+    </view>
+  </view>
+</view>

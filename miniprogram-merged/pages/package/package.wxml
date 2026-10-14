@@ -1,0 +1,44 @@
+<view class="page">
+  <view wx:if="{{loading}}" class="empty">加载中…</view>
+
+  <block wx:elif="{{pkg}}">
+    <view class="hero">
+      <view class="hero-name">{{pkg.name}}</view>
+      <view class="hero-price">¥{{pkg.price}}</view>
+      <view class="hero-meta" wx:if="{{pkg.duration_minutes}}">预计时长 {{pkg.duration_minutes}} 分钟</view>
+    </view>
+
+    <view class="section" wx:if="{{pkg.description}}">
+      <view class="section-title">服务说明</view>
+      <view class="section-body">{{pkg.description}}</view>
+    </view>
+
+    <view class="section">
+      <view class="section-title">预约须知</view>
+      <view class="section-body">
+        <view class="line">· 需填写就医人档案{{pkg.requires_patient_info ? '' : '（选填）'}}</view>
+        <view class="line" wx:if="{{pkg.requires_family_consent}}">· 下单视为家属授权确认</view>
+        <view class="line">· 服务过程逐节点留痕，家属端可查看进度</view>
+      </view>
+    </view>
+
+    <view class="section" wx:if="{{boundary}}">
+      <view class="section-title">服务边界声明</view>
+      <view class="boundary-allowed">
+        <view class="b-title">✅ 可协助开展（{{boundary.allowed.length}} 项）</view>
+        <view class="b-item" wx:for="{{boundary.allowed}}" wx:key="code">· {{item.title}}</view>
+      </view>
+      <view class="boundary-forbidden">
+        <view class="b-title">⛔ 不应开展（{{boundary.forbidden.length}} 项）</view>
+        <view class="b-item" wx:for="{{boundary.forbidden}}" wx:key="code">· {{item.title}}</view>
+      </view>
+    </view>
+
+    <view class="safe-bottom2" />
+  </block>
+
+  <view class="footer" wx:if="{{pkg}}">
+    <view class="footer-price">¥{{pkg.price}}</view>
+    <button class="btn-primary footer-btn" bindtap="goBooking">立即预约</button>
+  </view>
+</view>

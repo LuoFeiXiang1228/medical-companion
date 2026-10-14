@@ -1,0 +1,81 @@
+<view class="page">
+  <view class="pkg-bar" wx:if="{{pkg}}">
+    <view class="pkg-name">{{pkg.name}}</view>
+    <view class="pkg-price">¥{{pkg.price}}</view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">就医人 <text class="link" catchtap="goPatients">＋ 新增</text></view>
+    <view wx:if="{{!patients.length}}" class="hint">还没有就医人档案，请先右上角「新增」</view>
+    <picker wx:else mode="selector" range="{{patients}}" range-key="real_name" value="{{patientIndex}}" bindchange="onPatientChange">
+      <view class="picker-row">
+        <text class="picker-value">{{patients[patientIndex] ? patients[patientIndex].real_name : '请选择'}}</text>
+        <text class="arrow">›</text>
+      </view>
+    </picker>
+  </view>
+
+  <view class="section">
+    <view class="section-title">就诊信息</view>
+    <picker mode="selector" range="{{hospitals}}" range-key="name" value="{{hospitalIndex}}" bindchange="onHospitalChange">
+      <view class="picker-row">
+        <text class="picker-label">医院</text>
+        <text class="picker-value">{{hospitals[hospitalIndex] ? hospitals[hospitalIndex].name : '请选择'}}</text>
+        <text class="arrow">›</text>
+      </view>
+    </picker>
+    <picker mode="selector" range="{{departments}}" range-key="name" value="{{departmentIndex}}" bindchange="onDepartmentChange" disabled="{{!departments.length}}">
+      <view class="picker-row">
+        <text class="picker-label">科室</text>
+        <text class="picker-value">{{departments[departmentIndex] ? departments[departmentIndex].name : (departments.length ? '请选择' : '请先选择医院')}}</text>
+        <text class="arrow">›</text>
+      </view>
+    </picker>
+    <picker mode="date" value="{{date}}" start="{{minDate}}" bindchange="onDateChange">
+      <view class="picker-row">
+        <text class="picker-label">就诊日期</text>
+        <text class="picker-value">{{date}}</text>
+        <text class="arrow">›</text>
+      </view>
+    </picker>
+  </view>
+
+  <view class="section" wx:if="{{slots.length}}">
+    <view class="section-title">就诊时段</view>
+    <view class="chip-row">
+      <view
+        class="chip {{slotId === item.id ? 'active' : ''}}"
+        wx:for="{{slots}}"
+        wx:key="id"
+        data-id="{{item.id}}"
+        bindtap="onSlot"
+      >{{item.time_label}}</view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">需求备注</view>
+    <textarea class="textarea" placeholder="如：老人行动不便需轮椅、听力不佳等（选填）" value="{{remark}}" bindinput="onRemark" maxlength="200" />
+  </view>
+
+  <view class="section">
+    <view class="section-title">服务边界声明</view>
+    <scroll-view class="boundary-box" scroll-y wx:if="{{boundary}}">
+      <view class="b-title">✅ 可协助开展</view>
+      <view class="b-item" wx:for="{{boundary.allowed}}" wx:key="code">· {{item.title}}</view>
+      <view class="b-title mt">⛔ 不应开展</view>
+      <view class="b-item forbid" wx:for="{{boundary.forbidden}}" wx:key="code">· {{item.title}}</view>
+    </scroll-view>
+    <view class="agree-row" bindtap="toggleAgree">
+      <view class="checkbox {{boundaryAgreed ? 'checked' : ''}}">{{boundaryAgreed ? '✓' : ''}}</view>
+      <text class="agree-text">我已阅读并理解服务边界声明</text>
+    </view>
+  </view>
+
+  <view class="safe-bottom2" />
+
+  <view class="footer">
+    <view class="footer-price" wx:if="{{pkg}}">¥{{pkg.price}}</view>
+    <button class="btn-primary footer-btn" bindtap="submit" disabled="{{submitting}}">{{submitting ? '提交中…' : '提交订单'}}</button>
+  </view>
+</view>

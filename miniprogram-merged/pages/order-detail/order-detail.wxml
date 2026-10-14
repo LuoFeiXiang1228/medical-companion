@@ -1,0 +1,75 @@
+<view class="page">
+  <view wx:if="{{loading}}" class="empty">加载中…</view>
+
+  <block wx:elif="{{order}}">
+    <view class="status-card">
+      <view class="status-text">{{order.pay_status === 0 && order.status !== 0 ? '待支付' : statusText}}</view>
+      <view class="status-stage" wx:if="{{stageText}}">当前阶段：{{stageText}}</view>
+      <view class="status-no">订单号 {{order.order_no}}</view>
+    </view>
+
+    <view class="section">
+      <view class="section-title">服务信息</view>
+      <view class="item-row" wx:for="{{items}}" wx:key="index">
+        <text class="item-name">{{item.name}}</text>
+        <text class="item-price">¥{{item.price}}</text>
+      </view>
+      <view class="kv"><text class="k">医院</text><text class="v">{{order.hospital_name || '-'}}</text></view>
+      <view class="kv"><text class="k">科室</text><text class="v">{{order.department_name || '-'}}</text></view>
+      <view class="kv"><text class="k">就医人</text><text class="v">{{order.patient_name || '-'}}</text></view>
+      <view class="kv"><text class="k">就诊时间</text><text class="v">{{order.service_date}} {{order.time_label || ''}}</text></view>
+      <view class="kv" wx:if="{{order.remark}}"><text class="k">备注</text><text class="v">{{order.remark}}</text></view>
+      <view class="kv"><text class="k">合计</text><text class="v amount">¥{{order.total_amount}}</text></view>
+    </view>
+
+    <view class="section">
+      <view class="section-title">陪诊员</view>
+      <view class="kv" wx:if="{{companion}}">
+        <text class="k">陪诊员</text>
+        <text class="v">{{companion.real_name}}<text wx:if="{{companion.score}}"> · 评分 {{companion.score}}</text></text>
+      </view>
+      <view class="kv" wx:else><text class="k">陪诊员</text><text class="v muted">待指派</text></view>
+    </view>
+
+    <view class="section" wx:if="{{timeline.length}}">
+      <view class="section-title">进度</view>
+      <view class="tl-item" wx:for="{{timeline}}" wx:key="index">
+        <view class="tl-dot" />
+        <view class="tl-body">
+          <view class="tl-title">{{item.title}}</view>
+          <view class="tl-desc" wx:if="{{item.desc}}">{{item.desc}}</view>
+          <view class="tl-time">{{item.timeText}}</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="section" wx:if="{{logs.length}}">
+      <view class="section-title">服务留痕（不可修改）</view>
+      <view class="log-item" wx:for="{{logs}}" wx:key="id">
+        <view class="log-head">
+          <text class="log-node {{item.isCorrection ? 'correction' : ''}}">{{item.node_name || item.node_code}}</text>
+          <text class="log-time">{{item.timeText}}</text>
+        </view>
+        <view class="log-loc" wx:if="{{item.location_text}}">📍 {{item.location_text}}</view>
+        <view class="log-remark" wx:if="{{item.remark && !item.isCorrection}}">{{item.remark}}</view>
+        <view class="log-remark correction-text" wx:if="{{item.isCorrection}}">{{item.remark}}</view>
+        <view class="log-flag" wx:if="{{item.is_flagged}}">⚠️ 已标记待复核</view>
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="section-title">协议</view>
+      <view class="kv">
+        <text class="k">服务协议</text>
+        <text class="v">{{consent && consent.sign_status === 1 ? '已签署' : '未签署'}}</text>
+      </view>
+    </view>
+
+    <view class="safe-bottom2" />
+  </block>
+
+  <view class="footer" wx:if="{{order && order.pay_status === 0 && order.status !== 0}}">
+    <view class="footer-price">¥{{order.total_amount}}</view>
+    <button class="btn-primary footer-btn" bindtap="payNow" disabled="{{paying}}">{{paying ? '处理中…' : '立即支付'}}</button>
+  </view>
+</view>
