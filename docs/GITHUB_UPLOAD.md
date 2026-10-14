@@ -23,4 +23,4 @@ git push -u origin main
 
 若远端已有内容，请先检查合并方案，不使用强制推送。首次上传后查看 Actions 的检查结果，并启用私密漏洞报告。
 
-本次仅完成本地包整理，未创建 GitHub 仓库或推送；保留已有 MIT 协议。发布前还需核实第三方出处和标准规则文本的授权。
+本项目已于 2026-10-14 上传至公开仓库 [LuoFeiXiang1228/medical-companion](https://github.com/LuoFeiXiang1228/medical-companion)，默认分支为 main。首次 GitHub Actions 源码检查、后端测试和管理端构建均通过。保留 MIT 协议；第三方出处和标准规则文本授权的核实仍见 THIRD_PARTY_NOTICES.md。
